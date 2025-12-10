@@ -69,8 +69,44 @@ header h1{
 
 .tmoney_box{
 
-    border: 1px solid black;
-    height: 300px;
+    border: 1px solid #ccc;
+    height: 420px;
     width: 350px;
+    margin: 30px auto;
+    border-radius: 10px;
 
+}
+
+.tmoney_box p{
+
+    font-size: 10px;
+}
+
+.tmoney_heading{
+
+    text-align: center;
+    padding: 5px;
+    color: rgb(2, 54, 2);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.tmoney_box button{
+
+    margin-left: 100px;
+    background: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.tmoney_tpa, .tmoney_tia, .tmoney_ta{
+
+    font-size: 10px;
+    color: black;
+    padding: 2px;
+    margin-left: 20px;
+    font-weight: bold;
+    
+   
 }
