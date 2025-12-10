@@ -65,3 +65,12 @@ header h1{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
 }
+
+
+.tmoney_box{
+
+    border: 1px solid black;
+    height: 300px;
+    width: 350px;
+
+}
