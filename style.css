@@ -71,10 +71,11 @@ header h1{
 .tmoney_box{
 
     border: 1px solid #ccc;
-    height: 420px;
+    height: 500px;
     width: 350px;
     margin: 30px auto;
     border-radius: 10px;
+    background-color: rgb(51, 172, 51);
 
 }
 
@@ -93,10 +94,10 @@ header h1{
 
 .tmoney_box button{
 
-   background-color: green;
+   background-color: yellow;
    padding: 3px;
    border-radius: 5px;
-   color: white;
+   color: black;
    border: none;
  float: right;
  margin-right: 10px;
