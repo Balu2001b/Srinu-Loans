@@ -78,10 +78,7 @@ header h1{
 
 }
 
-.tmoney_box p{
 
-    font-size: 10px;
-}
 
 .tmoney_heading{
 
@@ -90,14 +87,19 @@ header h1{
     color: rgb(2, 54, 2);
     font-weight: bold;
     margin-bottom: 10px;
+    font-size: 13px;
+
 }
 
 .tmoney_box button{
 
-    margin-left: 100px;
-    background: none;
-    outline: none;
-    border: none;
+   background-color: green;
+   padding: 3px;
+   border-radius: 5px;
+   color: white;
+   border: none;
+   margin-left: 60px;
+
     cursor: pointer;
 }
 
