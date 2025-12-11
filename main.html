@@ -1,256 +1,318 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Srinu Loans — Responsive</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Srinu Loans — Responsive (with Interest Calculator)</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <style>
-      /* --- root / theme --- */
-      :root{
-        --gap:12px;
-        --muted:#666;
-        --accent:#0078d7;
-        --success:#2b7a2b;
-        --danger:#b02a2a;
-        --card-bg:#ffffff;
-        --page-bg:#f7f8fb;
-        --radius:10px;
-        font-family: Inter, Arial, Helvetica, sans-serif;
-      }
+  <style>
+    /* --- root / theme --- */
+    :root{
+      --gap:12px;
+      --muted:#666;
+      --accent:#0078d7;
+      --success:#2b7a2b;
+      --danger:#b02a2a;
+      --card-bg:#ffffff;
+      --page-bg:#f7f8fb;
+      --radius:10px;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+    }
 
-      html,body{height:100%;margin:0;background:var(--page-bg);-webkit-font-smoothing:antialiased}
-      .container{max-width:1100px;margin:14px auto;padding:18px}
-      header h1{ text-align:center;padding:12px;margin:0;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background:linear-gradient(90deg,#ffef9f,#ffd54a);border-radius:8px }
+    html,body{height:100%;margin:0;background:var(--page-bg);-webkit-font-smoothing:antialiased}
+    .container{max-width:1100px;margin:14px auto;padding:18px}
+    header h1{ text-align:center;padding:12px;margin:0;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background:linear-gradient(90deg,#ffef9f,#ffd54a);border-radius:8px }
 
-      /* toolbar */
-      .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
-      .controls-inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-      .small-btn{padding:8px 12px;border-radius:8px;border:1px solid #d0d6dc;background:#fff;cursor:pointer;font-size:14px}
-      .small-btn:active{transform:translateY(1px)}
+    /* toolbar */
+    .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
+    .controls-inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .small-btn{padding:8px 12px;border-radius:8px;border:1px solid #d0d6dc;background:#fff;cursor:pointer;font-size:14px}
+    .small-btn:active{transform:translateY(1px)}
 
-      .taking_money,.giving_money{padding:10px 18px;border-radius:8px;border:0;color:#fff;cursor:pointer;font-weight:700}
-      .taking_money{background:linear-gradient(180deg,#2aa84f,#198f3a)}
-      .giving_money{background:linear-gradient(180deg,#f44336,#c62828)}
+    .taking_money,.giving_money{padding:10px 18px;border-radius:8px;border:0;color:#fff;cursor:pointer;font-weight:700}
+    .taking_money{background:linear-gradient(180deg,#2aa84f,#198f3a)}
+    .giving_money{background:linear-gradient(180deg,#f44336,#c62828)}
 
-      .tmoney_box{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
-      .summary{margin-left:auto;display:flex;gap:70px;align-items:center}
-      .summary p{margin:0;font-weight:400; color: rgb(6, 6, 173);}
+    .tmoney_box{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
+    .summary{margin-left:auto;display:flex;gap:70px;align-items:center}
+    .summary p{margin:0;font-weight:400; color: rgb(6, 6, 173);}    
 
-      /* table / card styles */
-      .tmoney_list{background:var(--card-bg);padding:6px;border-radius:8px;box-shadow:0 6px 18px rgba(12,20,30,0.06);overflow:auto}
-      .excel-table{width:100%;border-collapse:collapse;min-width:760px}
-      .excel-table th,.excel-table td{border:1px solid #e2e6ea;padding:10px;white-space:nowrap}
-      .excel-table thead th{background:#f2f4f7;font-weight:700}
-      td.right{text-align:right}
-      td.total{font-weight:700;text-align:right}
-      td.action{text-align:center;min-width:110px}
+    /* table / card styles */
+    .tmoney_list{background:var(--card-bg);padding:6px;border-radius:8px;box-shadow:0 6px 18px rgba(12,20,30,0.06);overflow:auto}
+    .excel-table{width:100%;border-collapse:collapse;min-width:760px}
+    .excel-table th,.excel-table td{border:1px solid #e2e6ea;padding:10px;white-space:nowrap}
+    .excel-table thead th{background:#f2f4f7;font-weight:700}
+    td.right{text-align:right}
+    td.total{font-weight:700;text-align:right}
+    td.action{text-align:center;min-width:110px}
 
-      .remark-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--muted);cursor:pointer;background:#fff}
-      .remark-complete{background:#e8f6ea;border-color:var(--success);color:var(--success);font-weight:700}
-      .hide-action .action,.hide-action th.action-header{display:none!important}
+    .remark-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--muted);cursor:pointer;background:#fff}
+    .remark-complete{background:#e8f6ea;border-color:var(--success);color:var(--success);font-weight:700}
+    .hide-action .action,.hide-action th.action-header{display:none!important}
 
-      /* modal */
-      .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:1000}
-      .modal{background:var(--card-bg);border-radius:12px;padding:16px;width:96%;max-width:560px;box-shadow:0 12px 32px rgba(0,0,0,0.18)}
-      .modal h3{margin:0 0 8px 0}
-      .modal .row{display:flex;gap:8px;align-items:center;margin:8px 0}
-      .modal label{width:110px;font-size:14px;color:var(--muted)}
-      .modal input,.modal select{flex:1;padding:8px;border-radius:8px;border:1px solid #d7dbe0}
-      .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:1000}
+    .modal{background:var(--card-bg);border-radius:12px;padding:16px;width:96%;max-width:560px;box-shadow:0 12px 32px rgba(0,0,0,0.18)}
+    .modal h3{margin:0 0 8px 0}
+    .modal .row{display:flex;gap:8px;align-items:center;margin:8px 0}
+    .modal label{width:110px;font-size:14px;color:var(--muted)}
+    .modal input,.modal select{flex:1;padding:8px;border-radius:8px;border:1px solid #d7dbe0}
+    .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
 
-      #clearBtn, #modalSave{
+    #clearBtn, #modalSave{
+      background-color: red;
+      color: white;
+    }
+    /* ---------- MOBILE & TABLET ADAPTATIONS ---------- */
+    /* We'll convert the table into stacked cards for small screens and improve touch targets */
+    @media (max-width:1024px){
+      .container{padding:14px}
+      .excel-table{min-width:0}
+    }
 
-        background-color: red;
-        color: white;
-      }
-      /* ---------- MOBILE & TABLET ADAPTATIONS ---------- */
-      /* We'll convert the table into stacked cards for small screens and improve touch targets */
-      @media (max-width:1024px){
-        .container{padding:14px}
-        .excel-table{min-width:0}
-      }
+    /* Tablet: make controls wrap nicely and slightly larger touch targets */
+    @media (max-width:900px){
+      .controls-inline{width:100%;justify-content:space-between}
+      .small-btn{padding:10px 14px;font-size:15px}
+      .summary{flex-direction:row;align-items:center}
+    }
 
-      /* Tablet: make controls wrap nicely and slightly larger touch targets */
-      @media (max-width:900px){
-        .controls-inline{width:100%;justify-content:space-between}
-        .small-btn{padding:10px 14px;font-size:15px}
-        .summary{flex-direction:row;align-items:center}
-      }
+    /* Mobile: convert rows to stacked cards for readability */
+    @media (max-width:640px){
+      .excel-table{border:0}
+      .excel-table thead{display:none}
+      .excel-table, .excel-table tbody, .excel-table tr, .excel-table td{display:block;width:100%}
+      .excel-table tr{margin-bottom:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:0 6px 14px rgba(12,20,30,0.04);overflow:hidden;padding:10px;border:1px solid #eef2f6}
+      .excel-table td{padding:8px 12px;border:0;border-bottom:1px dashed #eee;position:relative}
+      .excel-table td:last-child{border-bottom:0}
+      .excel-table td::before{content:attr(data-label);font-weight:700;display:block;color:var(--muted);margin-bottom:6px}
+      td.right{text-align:left}
+      td.total{font-weight:800}
+      td.action{display:flex;gap:8px;justify-content:flex-end;padding-top:6px}
 
-      /* Mobile: convert rows to stacked cards for readability */
-      @media (max-width:640px){
-        .excel-table{border:0}
-        .excel-table thead{display:none}
-        .excel-table, .excel-table tbody, .excel-table tr, .excel-table td{display:block;width:100%}
-        .excel-table tr{margin-bottom:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:0 6px 14px rgba(12,20,30,0.04);overflow:hidden;padding:10px;border:1px solid #eef2f6}
-        .excel-table td{padding:8px 12px;border:0;border-bottom:1px dashed #eee;position:relative}
-        .excel-table td:last-child{border-bottom:0}
-        .excel-table td::before{content:attr(data-label);font-weight:700;display:block;color:var(--muted);margin-bottom:6px}
-        td.right{text-align:left}
-        td.total{font-weight:800}
-        td.action{display:flex;gap:8px;justify-content:flex-end;padding-top:6px}
+      /* stack toolbar buttons vertically for easier tapping */
+      .toolbar{flex-direction:column;align-items:stretch}
+      .taking_money,.giving_money{width:100%;display:block}
+      .controls-inline{flex-direction:column;align-items:stretch}
+      .small-btn{width:100%;}
 
-        /* stack toolbar buttons vertically for easier tapping */
-        .toolbar{flex-direction:column;align-items:stretch}
-        .taking_money,.giving_money{width:100%;display:block}
-        .controls-inline{flex-direction:column;align-items:stretch}
-        .small-btn{width:100%;}
+      /* modal full-screen on small screens */
+      .modal{width:100%;height:100%;max-width:none;border-radius:0;padding:14px;display:flex;flex-direction:column}
+      .modal .content{flex:1;overflow:auto}
+      .modal-footer{position:static;margin-top:12px}
 
-        /* modal full-screen on small screens */
-        .modal{width:100%;height:100%;max-width:none;border-radius:0;padding:14px;display:flex;flex-direction:column}
-        .modal .content{flex:1;overflow:auto}
-        .modal-footer{position:static;margin-top:12px}
+      /* hide summary to conserve space (it’s still available in header) */
+      .summary{display:none}
+    }
 
-        /* hide summary to conserve space (it’s still available in header) */
-        .summary{display:none}
-      }
+    @media (max-width:420px){
+      header h1{font-size:20px}
+      .modal label{width:100px}
+    }
 
-      @media (max-width:420px){
-        header h1{font-size:20px}
-        .modal label{width:100px}
-      }
+    /* accessibility */
+    button:focus,input:focus,select:focus{outline:3px solid rgba(0,120,215,0.12)}
 
-      /* accessibility */
-      button:focus,input:focus,select:focus{outline:3px solid rgba(0,120,215,0.12)}
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <h1>SRINU LOANS</h1>
-      </header>
+    /* small helper for clickable interest cell */
+    td.clickable{cursor:pointer}
 
-      <section class="toolbar">
-        <div style="display:flex;gap:12px;flex:1;flex-wrap:wrap;align-items:center;">
-          <button id="btnTaking" class="taking_money" aria-pressed="true">Taking Money</button>
-          <button id="btnGiving" class="giving_money" aria-pressed="false">Giving Money</button>
+    #calcApply{
+
+      background-color: red;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>SRINU LOANS</h1>
+    </header>
+
+    <section class="toolbar">
+      <div style="display:flex;gap:12px;flex:1;flex-wrap:wrap;align-items:center;">
+        <button id="btnTaking" class="taking_money" aria-pressed="true">Taking Money</button>
+        <button id="btnGiving" class="giving_money" aria-pressed="false">Giving Money</button>
+      </div>
+
+      <div class="tmoney_box" style="flex:1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+        <div class="controls-inline">
+          <button id="addRowBtn" title="Add row" class="small-btn"><i class="bi bi-plus-lg"></i> Add Name / Bank</button>
+          <button id="exportPdfBtn" class="small-btn" title="Export table as PDF">📄 Export as PDF</button>
+          <button id="clearBtn" class="small-btn" title="Clear all rows">🗑 Clear Data</button>
         </div>
 
-        <div class="tmoney_box" style="flex:1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
-          <div class="controls-inline">
-            <button id="addRowBtn" title="Add row" class="small-btn"><i class="bi bi-plus-lg"></i> Add Name / Bank</button>
-            <button id="exportPdfBtn" class="small-btn" title="Export table as PDF">📄 Export as PDF</button>
-            <button id="clearBtn" class="small-btn" title="Clear all rows">🗑 Clear Data</button>
-          </div>
-
-          <div class="summary" aria-hidden="false">
-            <p>Principle: <span id="sumPrinciple">0.00</span></p>
-            <p>Interest: <span id="sumInterest">0.00</span></p>
-            <p>Total: <span id="sumTotal">0.00</span></p>
-          </div>
-        </div>
-      </section>
-
-      <section style="margin-top:12px;">
-        <div class="tmoney_list" id="tableWrap">
-          <table class="excel-table" id="moneyTable" aria-label="Money table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Person/Bank Name</th>
-                <th style="text-align:right">Principle Amount</th>
-                <th style="text-align:right">Interest Amount</th>
-                <th style="text-align:right">Total Amount</th>
-                <th>Remark</th>
-                <th class="action-header">Action</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- modal -->
-    <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <h3 id="modalTitle">Add / Edit Entry</h3>
-        <div style="margin:8px 0" id="modeBadge" class="mode-indicator"></div>
-
-        <div class="content">
-          <div class="row">
-            <label for="mDate">Date</label>
-            <input id="mDate" type="date">
-          </div>
-
-          <div class="row">
-            <label for="mName">Person/Bank</label>
-            <input id="mName" type="text" placeholder="Person / Bank">
-          </div>
-
-          <div class="row">
-            <label for="mPrinciple">Principle</label>
-            <input id="mPrinciple" type="number" min="0" step="0.01">
-          </div>
-
-          <div class="row">
-            <label for="mInterest">Interest</label>
-            <input id="mInterest" type="number" min="0" step="0.01">
-          </div>
-
-          <div class="row">
-            <label for="mRemark">Remark</label>
-            <select id="mRemark"><option value="pending">Pending</option><option value="complete">Complete</option></select>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button id="modalCancel" class="small-btn">Cancel</button>
-          <button id="modalSave" class="small-btn">Save</button>
+        <div class="summary" aria-hidden="false">
+          <p>Principle: <span id="sumPrinciple">0.00</span></p>
+          <p>Interest: <span id="sumInterest">0.00</span></p>
+          <p>Total: <span id="sumTotal">0.00</span></p>
         </div>
       </div>
+    </section>
+
+    <section style="margin-top:12px;">
+      <div class="tmoney_list" id="tableWrap">
+        <table class="excel-table" id="moneyTable" aria-label="Money table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Person/Bank Name</th>
+              <th style="text-align:right">Principle Amount</th>
+              <th style="text-align:right">Interest Amount</th>
+              <th style="text-align:right">Total Amount</th>
+              <th>Remark</th>
+              <th class="action-header">Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- modal: add/edit -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Add / Edit Entry</h3>
+      <div style="margin:8px 0" id="modeBadge" class="mode-indicator"></div>
+
+      <div class="content">
+        <div class="row">
+          <label for="mDate">Date</label>
+          <input id="mDate" type="date">
+        </div>
+
+        <div class="row">
+          <label for="mName">Person/Bank</label>
+          <input id="mName" type="text" placeholder="Person / Bank">
+        </div>
+
+        <div class="row">
+          <label for="mPrinciple">Principle</label>
+          <input id="mPrinciple" type="number" min="0" step="0.01">
+        </div>
+
+        <div class="row">
+          <label for="mInterest">Interest</label>
+          <input id="mInterest" type="number" min="0" step="0.01">
+          <button id="openCalcFromModal" class="small-btn" title="Open interest calculator">Calc</button>
+        </div>
+
+        <div class="row">
+          <label for="mRemark">Remark</label>
+          <select id="mRemark"><option value="pending">Pending</option><option value="complete">Complete</option></select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="modalCancel" class="small-btn">Cancel</button>
+        <button id="modalSave" class="small-btn">Save</button>
+      </div>
     </div>
+  </div>
 
-    <!-- pdf libs used previously -->
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- modal: interest calculator -->
+  <div class="modal-backdrop" id="calcBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="calcTitle">
+      <h3 id="calcTitle">Interest Calculator</h3>
+      <div class="content">
+        <div class="row">
+          <label for="cPrinciple">Principle</label>
+          <input id="cPrinciple" type="number" min="0" step="0.01" disabled style="background:#eee; cursor:not-allowed;">
 
-    <script>
-      /* localStorage DB logic + rendering which sets data-label attributes for mobile/card view */
-      const STORAGE_KEYS = { taking: 'srinu_taking', giving: 'srinu_giving' };
-      const btnTaking = document.getElementById('btnTaking');
-      const btnGiving = document.getElementById('btnGiving');
-      const addRowBtn = document.getElementById('addRowBtn');
-      const exportPdfBtn = document.getElementById('exportPdfBtn');
-      const clearBtn = document.getElementById('clearBtn');
-      const tbody = document.querySelector('#moneyTable tbody');
-      const tableWrap = document.querySelector('#tableWrap');
-      const sumPrincipleEl = document.getElementById('sumPrinciple');
-      const sumInterestEl = document.getElementById('sumInterest');
-      const sumTotalEl = document.getElementById('sumTotal');
+        </div>
+        <div class="row">
+          <label for="cRate">Interest Amount</label>
+          <input id="cRate" type="number" min="0" step="0.01" value="12">
+        </div>
+        <div class="row">
+          <label for="cMonths">Months</label>
+          <input id="cMonths" type="number" min="0" step="1" value="1">
+        </div>
+        <div class="row">
+          <label for="cResult">Total Amount</label>
+          <input id="cResult" type="text" readonly>
+        </div>
+        <div style="margin-top:8px;color:var(--muted);font-size:13px">Formula used: Simple interest = Interest Amount * Months.  And click on "Compute".</div>
+      </div>
 
-      // modal
-      const modalBackdrop = document.getElementById('modalBackdrop');
-      const modalSave = document.getElementById('modalSave');
-      const modalCancel = document.getElementById('modalCancel');
-      const modeBadge = document.getElementById('modeBadge');
-      const mDate = document.getElementById('mDate');
-      const mName = document.getElementById('mName');
-      const mPrinciple = document.getElementById('mPrinciple');
-      const mInterest = document.getElementById('mInterest');
-      const mRemark = document.getElementById('mRemark');
+      <div class="modal-footer">
+        <button id="calcCancel" class="small-btn">Cancel</button>
+        <button id="calcCompute" class="small-btn">Compute</button>
+        <button id="calcApply" class="small-btn">Apply to Interest</button>
+      </div>
+    </div>
+  </div>
 
-      let currentMode = 'taking';
-      let editIndex = -1;
+  <!-- pdf libs used previously -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-      // attach listeners
-      btnTaking.addEventListener('click', ()=>switchMode('taking'));
-      btnGiving.addEventListener('click', ()=>switchMode('giving'));
-      addRowBtn.addEventListener('click', openAddModal);
-      exportPdfBtn.addEventListener('click', exportAsPdf);
-      clearBtn.addEventListener('click', clearCurrentDatabase);
-      modalCancel.addEventListener('click', closeModal);
-      modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) closeModal();});
-      modalSave.addEventListener('click', onModalSave);
+  <script>
+    /* localStorage DB logic + rendering which sets data-label attributes for mobile/card view */
+    const STORAGE_KEYS = { taking: 'srinu_taking', giving: 'srinu_giving' };
+    const btnTaking = document.getElementById('btnTaking');
+    const btnGiving = document.getElementById('btnGiving');
+    const addRowBtn = document.getElementById('addRowBtn');
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const tbody = document.querySelector('#moneyTable tbody');
+    const tableWrap = document.querySelector('#tableWrap');
+    const sumPrincipleEl = document.getElementById('sumPrinciple');
+    const sumInterestEl = document.getElementById('sumInterest');
+    const sumTotalEl = document.getElementById('sumTotal');
 
-      switchMode('taking');
+    // modal (add/edit)
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalSave = document.getElementById('modalSave');
+    const modalCancel = document.getElementById('modalCancel');
+    const modeBadge = document.getElementById('modeBadge');
+    const mDate = document.getElementById('mDate');
+    const mName = document.getElementById('mName');
+    const mPrinciple = document.getElementById('mPrinciple');
+    const mInterest = document.getElementById('mInterest');
+    const mRemark = document.getElementById('mRemark');
+    const openCalcFromModal = document.getElementById('openCalcFromModal');
+
+    // calc modal
+    const calcBackdrop = document.getElementById('calcBackdrop');
+    const cPrinciple = document.getElementById('cPrinciple');
+    const cRate = document.getElementById('cRate');
+    const cMonths = document.getElementById('cMonths');
+    const cResult = document.getElementById('cResult');
+    const calcCancel = document.getElementById('calcCancel');
+    const calcCompute = document.getElementById('calcCompute');
+    const calcApply = document.getElementById('calcApply');
+
+    let currentMode = 'taking';
+    let editIndex = -1;
+
+    // when interest calc opened targeting a specific row, we store this info so Apply updates the row immediately
+    let calcTarget = null; // { mode: "taking"|"giving", index: number } or null
+
+    // attach listeners
+    btnTaking.addEventListener('click', ()=>switchMode('taking'));
+    btnGiving.addEventListener('click', ()=>switchMode('giving'));
+    addRowBtn.addEventListener('click', openAddModal);
+    exportPdfBtn.addEventListener('click', exportAsPdf);
+    clearBtn.addEventListener('click', clearCurrentDatabase);
+    modalCancel.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) closeModal();});
+    modalSave.addEventListener('click', onModalSave);
+    openCalcFromModal.addEventListener('click', ()=> openCalcModal({ mode: currentMode, index: editIndex, principle: parseFloat(mPrinciple.value) || 0, interestField: 'modal' }));
+
+    calcCancel.addEventListener('click', closeCalcModal);
+    calcCompute.addEventListener('click', ()=>{ computeAndShow(); });
+    calcApply.addEventListener('click', ()=>{ applyCalcResult(); });
+    calcBackdrop.addEventListener('click', (e)=>{ if(e.target===calcBackdrop) closeCalcModal(); });
+
+    switchMode('taking');
 
 
-      // display date as: 11 Dec 2025  (day 2-digit, short month name, year)
+    // display date as: 11 Dec 2025  (day 2-digit, short month name, year)
   function formatDisplayDate(dateStr) {
     if (!dateStr) return '';
     // input expected as YYYY-MM-DD (from <input type="date">)
@@ -263,80 +325,138 @@
   }
 
 
-      function loadFromStorage(mode){ try{const raw=localStorage.getItem(STORAGE_KEYS[mode]);return raw?JSON.parse(raw):[];}catch(e){localStorage.removeItem(STORAGE_KEYS[mode]);return[];} }
-      function saveToStorage(mode,arr){ localStorage.setItem(STORAGE_KEYS[mode], JSON.stringify(arr)); }
-      function addEntry(mode,entry){ const a=loadFromStorage(mode); a.push(entry); saveToStorage(mode,a); }
-      function updateEntry(mode,index,entry){ const a=loadFromStorage(mode); if(index>=0 && index<a.length){ a[index]=entry; saveToStorage(mode,a);} }
-      function deleteEntry(mode,index){ const a=loadFromStorage(mode); if(index>=0 && index<a.length){ a.splice(index,1); saveToStorage(mode,a);} }
+    function loadFromStorage(mode){ try{const raw=localStorage.getItem(STORAGE_KEYS[mode]);return raw?JSON.parse(raw):[];}catch(e){localStorage.removeItem(STORAGE_KEYS[mode]);return[];} }
+    function saveToStorage(mode,arr){ localStorage.setItem(STORAGE_KEYS[mode], JSON.stringify(arr)); }
+    function addEntry(mode,entry){ const a=loadFromStorage(mode); a.push(entry); saveToStorage(mode,a); }
+    function updateEntry(mode,index,entry){ const a=loadFromStorage(mode); if(index>=0 && index<a.length){ a[index]=entry; saveToStorage(mode,a);} }
+    function deleteEntry(mode,index){ const a=loadFromStorage(mode); if(index>=0 && index<a.length){ a.splice(index,1); saveToStorage(mode,a);} }
 
-      function switchMode(m){ currentMode=m; btnTaking.style.opacity = m==='taking'?1:0.7; btnGiving.style.opacity = m==='giving'?1:0.7; modeBadge.textContent = m==='taking' ? 'Taking Money DB' : 'Giving Money DB'; renderTable(); }
+    function switchMode(m){ currentMode=m; btnTaking.style.opacity = m==='taking'?1:0.7; btnGiving.style.opacity = m==='giving'?1:0.7; modeBadge.textContent = m==='taking' ? 'Taking Money DB' : 'Giving Money DB'; renderTable(); }
 
-      function renderTable(){ tbody.innerHTML=''; const rows = loadFromStorage(currentMode); rows.forEach((r,idx)=> tbody.appendChild(makeRowElement(r,idx))); updateSums(); }
+    function renderTable(){ tbody.innerHTML=''; const rows = loadFromStorage(currentMode); rows.forEach((r,idx)=> tbody.appendChild(makeRowElement(r,idx))); updateSums(); }
 
-      function makeRowElement(data,index){
-        const tr = document.createElement('tr');
+    function makeRowElement(data,index){
+      const tr = document.createElement('tr');
 
-        
+      const tdDate = document.createElement('td');
+      tdDate.textContent = formatDisplayDate(data.date || '');
+      tdDate.setAttribute('data-label','Date');
+      tr.appendChild(tdDate);
 
-        const tdDate = document.createElement('td');
-  tdDate.textContent = formatDisplayDate(data.date || '');
-  tdDate.setAttribute('data-label','Date');
-  tr.appendChild(tdDate);
+      const tdName = document.createElement('td'); tdName.textContent = data.name || ''; tdName.setAttribute('data-label','Person/Bank'); tr.appendChild(tdName);
 
+      const tdPrin = document.createElement('td'); tdPrin.className='right'; tdPrin.textContent = formatNumber(data.principle); tdPrin.setAttribute('data-label','Principle'); tr.appendChild(tdPrin);
 
-        const tdName = document.createElement('td'); tdName.textContent = data.name || ''; tdName.setAttribute('data-label','Person/Bank'); tr.appendChild(tdName);
-        const tdPrin = document.createElement('td'); tdPrin.className='right'; tdPrin.textContent = formatNumber(data.principle); tdPrin.setAttribute('data-label','Principle'); tr.appendChild(tdPrin);
-        const tdInterest = document.createElement('td'); tdInterest.className='right'; tdInterest.textContent = formatNumber(data.interest); tdInterest.setAttribute('data-label','Interest'); tr.appendChild(tdInterest);
+      const tdInterest = document.createElement('td'); tdInterest.className='right clickable'; tdInterest.title = 'Click to calculate interest'; tdInterest.textContent = formatNumber(data.interest); tdInterest.setAttribute('data-label','Interest');
+      // clicking interest opens calculator prefilled for this row
+      tdInterest.addEventListener('click', ()=>{ openCalcModal({ mode: currentMode, index, principle: parseFloat(data.principle) || 0, interestField: 'table' }); });
+      tr.appendChild(tdInterest);
 
-        const tdTotal = document.createElement('td'); tdTotal.className='total'; const total = (parseFloat(data.principle||0)+parseFloat(data.interest||0))||0; tdTotal.textContent = formatNumber(total); tdTotal.setAttribute('data-label','Total'); tr.appendChild(tdTotal);
+      const tdTotal = document.createElement('td'); tdTotal.className='total'; const total = (parseFloat(data.principle||0)+parseFloat(data.interest||0))||0; tdTotal.textContent = formatNumber(total); tdTotal.setAttribute('data-label','Total'); tr.appendChild(tdTotal);
 
-        const tdRemark = document.createElement('td'); tdRemark.style.textAlign='center'; tdRemark.setAttribute('data-label','Remark'); const remarkBtn = document.createElement('button'); remarkBtn.type='button'; remarkBtn.className='remark-btn ' + (data.remark==='complete'?'remark-complete':''); remarkBtn.textContent = data.remark==='complete' ? 'Complete' : 'Pending'; remarkBtn.addEventListener('click', ()=>{ data.remark = data.remark==='complete' ? 'pending':'complete'; updateEntry(currentMode,index,data); renderTable(); }); tdRemark.appendChild(remarkBtn); tr.appendChild(tdRemark);
+      const tdRemark = document.createElement('td'); tdRemark.style.textAlign='center'; tdRemark.setAttribute('data-label','Remark'); const remarkBtn = document.createElement('button'); remarkBtn.type='button'; remarkBtn.className='remark-btn ' + (data.remark==='complete'?'remark-complete':''); remarkBtn.textContent = data.remark==='complete' ? 'Complete' : 'Pending'; remarkBtn.addEventListener('click', ()=>{ data.remark = data.remark==='complete' ? 'pending':'complete'; updateEntry(currentMode,index,data); renderTable(); }); tdRemark.appendChild(remarkBtn); tr.appendChild(tdRemark);
 
-        const tdAction = document.createElement('td'); tdAction.className='action'; tdAction.setAttribute('data-label','Action');
-        const editBtn = document.createElement('button'); editBtn.className='small-btn'; editBtn.textContent='Edit'; editBtn.addEventListener('click', ()=> openEditModal(index,data)); tdAction.appendChild(editBtn);
-        const delBtn = document.createElement('button'); delBtn.className='small-btn'; delBtn.style.marginLeft='6px'; delBtn.style.backgroundColor='red'; delBtn.style.color='white'; delBtn.textContent='Delete'; delBtn.addEventListener('click', ()=>{ if(!confirm('Delete this row?')) return; deleteEntry(currentMode,index); renderTable(); }); tdAction.appendChild(delBtn);
-        tr.appendChild(tdAction);
+      const tdAction = document.createElement('td'); tdAction.className='action'; tdAction.setAttribute('data-label','Action');
+      const editBtn = document.createElement('button'); editBtn.className='small-btn'; editBtn.textContent='Edit'; editBtn.addEventListener('click', ()=> openEditModal(index,data)); tdAction.appendChild(editBtn);
+      const delBtn = document.createElement('button'); delBtn.className='small-btn'; delBtn.style.marginLeft='6px'; delBtn.style.backgroundColor='red'; delBtn.style.color='white'; delBtn.textContent='Delete'; delBtn.addEventListener('click', ()=>{ if(!confirm('Delete this row?')) return; deleteEntry(currentMode,index); renderTable(); }); tdAction.appendChild(delBtn);
+      tr.appendChild(tdAction);
 
-        return tr;
+      return tr;
+    }
+
+    function openAddModal(){ editIndex=-1; mDate.value=''; mName.value=''; mPrinciple.value=''; mInterest.value=''; mRemark.value='pending'; showModal(); }
+    function openEditModal(index,data){ editIndex=index; mDate.value=data.date||''; mName.value=data.name||''; mPrinciple.value=data.principle||''; mInterest.value=data.interest||''; mRemark.value=data.remark||'pending'; showModal(); }
+    function showModal(){ modalBackdrop.style.display='flex'; modalBackdrop.setAttribute('aria-hidden','false'); setTimeout(()=>mDate.focus(),50); }
+    function closeModal(){ modalBackdrop.style.display='none'; modalBackdrop.setAttribute('aria-hidden','true'); }
+    function onModalSave(){ const entry = { date:mDate.value, name:mName.value.trim(), principle: mPrinciple.value?parseFloat(mPrinciple.value).toFixed(2):'0.00', interest: mInterest.value?parseFloat(mInterest.value).toFixed(2):'0.00', remark:mRemark.value }; if(editIndex===-1) addEntry(currentMode,entry); else updateEntry(currentMode,editIndex,entry); closeModal(); renderTable(); }
+
+    // formatted number with commas and 2 decimals
+    // Uses en-US grouping (1,234,567.89). If you prefer Indian grouping (1,23,45,678.90) use 'en-IN'.
+    function formatNumber(v) {
+      if (v === '' || v === undefined || v === null) return '';
+      const n = Number(v);
+      if (isNaN(n)) return '';
+     return n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    }
+
+    // update sums and display with commas
+    function updateSums() {
+      let totP = 0, totI = 0, totAll = 0;
+      const rows = loadFromStorage(currentMode);
+      for (const r of rows) {
+        const p = parseFloat(r.principle) || 0;
+        const i = parseFloat(r.interest) || 0;
+        totP += p;
+        totI += i;
+        totAll += p + i;
+      }
+      sumPrincipleEl.textContent = formatNumber(totP);
+      sumInterestEl.textContent = formatNumber(totI);
+      sumTotalEl.textContent = formatNumber(totAll);
+    }
+
+    function clearCurrentDatabase(){ if(!confirm(`Clear all rows in the "${currentMode}" database?`)) return; saveToStorage(currentMode,[]); renderTable(); }
+
+    async function exportAsPdf(){ tableWrap.classList.add('hide-action'); try{ const canvas = await html2canvas(tableWrap,{scale:2,useCORS:true,backgroundColor:'#ffffff'}); const imgData = canvas.toDataURL('image/png'); const { jsPDF } = window.jspdf; const pdf = new jsPDF({orientation:'portrait',unit:'pt',format:'a4'}); const pdfW = pdf.internal.pageSize.getWidth(); const pdfH = pdf.internal.pageSize.getHeight(); const imgW = canvas.width; const imgH = canvas.height; const ratio = Math.min(pdfW/imgW,pdfH/imgH); const renderW = imgW*ratio; const renderH = imgH*ratio; const marginTop = 20; pdf.addImage(imgData,'PNG',(pdfW-renderW)/2,marginTop,renderW,renderH); const filename = `srinu_${currentMode}_table_${new Date().toISOString().slice(0,10)}.pdf`; pdf.save(filename);}catch(e){console.error(e);alert('PDF export failed');}finally{tableWrap.classList.remove('hide-action');} }
+
+    // ---------------- Interest calculator functions ----------------
+    function openCalcModal({ mode, index, principle = 0, interestField = 'table' }){
+      // interestField: 'table' means opened from table row, 'modal' means opened from the add/edit modal
+      calcBackdrop.style.display='flex'; calcBackdrop.setAttribute('aria-hidden','false');
+      cPrinciple.value = (principle || 0).toFixed(2);
+      cRate.value = cRate.value || 12;
+      cMonths.value = cMonths.value || 1;
+      cResult.value = '';
+      calcTarget = { mode, index, interestField };
+      setTimeout(()=>cRate.focus(),50);
+    }
+
+    function computeAndShow(){
+      const r = parseFloat(cRate.value) || 0;   // treat rate as monthly interest amount
+      const m = parseInt(cMonths.value) || 0;   // months
+      // interest = rate × months
+      const interest = r * m;
+      cResult.value = Number(interest).toFixed(2);
+      return interest;
+    }
+
+    function applyCalcResult(){
+      const interest = computeAndShow();
+      if (calcTarget && calcTarget.interestField === 'modal'){
+        // we are editing/adding via modal: set mInterest value
+        mInterest.value = Number(interest).toFixed(2);
+        closeCalcModal();
+        return;
       }
 
-      function openAddModal(){ editIndex=-1; mDate.value=''; mName.value=''; mPrinciple.value=''; mInterest.value=''; mRemark.value='pending'; showModal(); }
-      function openEditModal(index,data){ editIndex=index; mDate.value=data.date||''; mName.value=data.name||''; mPrinciple.value=data.principle||''; mInterest.value=data.interest||''; mRemark.value=data.remark||'pending'; showModal(); }
-      function showModal(){ modalBackdrop.style.display='flex'; modalBackdrop.setAttribute('aria-hidden','false'); setTimeout(()=>mDate.focus(),50); }
-      function closeModal(){ modalBackdrop.style.display='none'; modalBackdrop.setAttribute('aria-hidden','true'); }
-      function onModalSave(){ const entry = { date:mDate.value, name:mName.value.trim(), principle: mPrinciple.value?parseFloat(mPrinciple.value).toFixed(2):'0.00', interest: mInterest.value?parseFloat(mInterest.value).toFixed(2):'0.00', remark:mRemark.value }; if(editIndex===-1) addEntry(currentMode,entry); else updateEntry(currentMode,editIndex,entry); closeModal(); renderTable(); }
+      if (calcTarget && calcTarget.interestField === 'table'){
+        // update the entry immediately and save
+        const { mode, index } = calcTarget;
+        if (typeof index === 'number' && index >= 0){
+          const rows = loadFromStorage(mode);
+          if (rows && rows[index]){
+            rows[index].interest = Number(interest).toFixed(2);
+            saveToStorage(mode, rows);
+            renderTable();
+            closeCalcModal();
+            return;
+          }
+        }
+        // fallback: if not valid index, just close
+        closeCalcModal();
+        return;
+      }
 
-      // formatted number with commas and 2 decimals
-// Uses en-US grouping (1,234,567.89). If you prefer Indian grouping (1,23,45,678.90) use 'en-IN'.
-function formatNumber(v) {
-  if (v === '' || v === undefined || v === null) return '';
-  const n = Number(v);
-  if (isNaN(n)) return '';
- return n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      // default: close
+      closeCalcModal();
+    }
 
-}
+    function closeCalcModal(){ calcBackdrop.style.display='none'; calcBackdrop.setAttribute('aria-hidden','true'); calcTarget = null; }
 
-// update sums and display with commas
-function updateSums() {
-  let totP = 0, totI = 0, totAll = 0;
-  const rows = loadFromStorage(currentMode);
-  for (const r of rows) {
-    const p = parseFloat(r.principle) || 0;
-    const i = parseFloat(r.interest) || 0;
-    totP += p;
-    totI += i;
-    totAll += p + i;
-  }
-  sumPrincipleEl.textContent = formatNumber(totP);
-  sumInterestEl.textContent = formatNumber(totI);
-  sumTotalEl.textContent = formatNumber(totAll);
-}
+    // expose helper for console/debug
+    window._srinu = { loadFromStorage, saveToStorage, addEntry, updateEntry, deleteEntry, openCalcModal };
 
-      function clearCurrentDatabase(){ if(!confirm(`Clear all rows in the "${currentMode}" database?`)) return; saveToStorage(currentMode,[]); renderTable(); }
-
-      async function exportAsPdf(){ tableWrap.classList.add('hide-action'); try{ const canvas = await html2canvas(tableWrap,{scale:2,useCORS:true,backgroundColor:'#ffffff'}); const imgData = canvas.toDataURL('image/png'); const { jsPDF } = window.jspdf; const pdf = new jsPDF({orientation:'portrait',unit:'pt',format:'a4'}); const pdfW = pdf.internal.pageSize.getWidth(); const pdfH = pdf.internal.pageSize.getHeight(); const imgW = canvas.width; const imgH = canvas.height; const ratio = Math.min(pdfW/imgW,pdfH/imgH); const renderW = imgW*ratio; const renderH = imgH*ratio; const marginTop = 20; pdf.addImage(imgData,'PNG',(pdfW-renderW)/2,marginTop,renderW,renderH); const filename = `srinu_${currentMode}_table_${new Date().toISOString().slice(0,10)}.pdf`; pdf.save(filename);}catch(e){console.error(e);alert('PDF export failed');}finally{tableWrap.classList.remove('hide-action');} }
-
-      window._srinu = { loadFromStorage, saveToStorage, addEntry, updateEntry, deleteEntry };
-    </script>
-  </body>
-  </html>
+  </script>
+</body>
+</html>
