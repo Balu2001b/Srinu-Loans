@@ -1,47 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Srinu Loans</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Srinu Loans — Responsive</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <link rel="stylesheet" href="style.css">
+  <style>
+    /* --- root / theme --- */
+    :root{
+      --gap:12px;
+      --muted:#666;
+      --accent:#0078d7;
+      --success:#2b7a2b;
+      --danger:#b02a2a;
+      --card-bg:#ffffff;
+      --page-bg:#f7f8fb;
+      --radius:10px;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+    }
+
+    html,body{height:100%;margin:0;background:var(--page-bg);-webkit-font-smoothing:antialiased}
+    .container{max-width:1100px;margin:14px auto;padding:18px}
+    header h1{ text-align:center;padding:12px;margin:0;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background:linear-gradient(90deg,#ffef9f,#ffd54a);border-radius:8px }
+
+    /* toolbar */
+    .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
+    .controls-inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .small-btn{padding:8px 12px;border-radius:8px;border:1px solid #d0d6dc;background:#fff;cursor:pointer;font-size:14px}
+    .small-btn:active{transform:translateY(1px)}
+
+    .taking_money,.giving_money{padding:10px 18px;border-radius:8px;border:0;color:#fff;cursor:pointer;font-weight:700}
+    .taking_money{background:linear-gradient(180deg,#2aa84f,#198f3a)}
+    .giving_money{background:linear-gradient(180deg,#f44336,#c62828)}
+
+    .tmoney_box{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
+    .summary{margin-left:auto;display:flex;gap:16px;align-items:center}
+    .summary p{margin:0;font-weight:700}
+
+    /* table / card styles */
+    .tmoney_list{background:var(--card-bg);padding:6px;border-radius:8px;box-shadow:0 6px 18px rgba(12,20,30,0.06);overflow:auto}
+    .excel-table{width:100%;border-collapse:collapse;min-width:760px}
+    .excel-table th,.excel-table td{border:1px solid #e2e6ea;padding:10px;white-space:nowrap}
+    .excel-table thead th{background:#f2f4f7;font-weight:700}
+    td.right{text-align:right}
+    td.total{font-weight:700;text-align:right}
+    td.action{text-align:center;min-width:110px}
+
+    .remark-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--muted);cursor:pointer;background:#fff}
+    .remark-complete{background:#e8f6ea;border-color:var(--success);color:var(--success);font-weight:700}
+    .hide-action .action,.hide-action th.action-header{display:none!important}
+
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:1000}
+    .modal{background:var(--card-bg);border-radius:12px;padding:16px;width:96%;max-width:560px;box-shadow:0 12px 32px rgba(0,0,0,0.18)}
+    .modal h3{margin:0 0 8px 0}
+    .modal .row{display:flex;gap:8px;align-items:center;margin:8px 0}
+    .modal label{width:110px;font-size:14px;color:var(--muted)}
+    .modal input,.modal select{flex:1;padding:8px;border-radius:8px;border:1px solid #d7dbe0}
+    .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+
+    #clearBtn, #modalSave{
+
+      background-color: red;
+      color: white;
+    }
+    /* ---------- MOBILE & TABLET ADAPTATIONS ---------- */
+    /* We'll convert the table into stacked cards for small screens and improve touch targets */
+    @media (max-width:1024px){
+      .container{padding:14px}
+      .excel-table{min-width:0}
+    }
+
+    /* Tablet: make controls wrap nicely and slightly larger touch targets */
+    @media (max-width:900px){
+      .controls-inline{width:100%;justify-content:space-between}
+      .small-btn{padding:10px 14px;font-size:15px}
+      .summary{flex-direction:row;align-items:center}
+    }
+
+    /* Mobile: convert rows to stacked cards for readability */
+    @media (max-width:640px){
+      .excel-table{border:0}
+      .excel-table thead{display:none}
+      .excel-table, .excel-table tbody, .excel-table tr, .excel-table td{display:block;width:100%}
+      .excel-table tr{margin-bottom:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:0 6px 14px rgba(12,20,30,0.04);overflow:hidden;padding:10px;border:1px solid #eef2f6}
+      .excel-table td{padding:8px 12px;border:0;border-bottom:1px dashed #eee;position:relative}
+      .excel-table td:last-child{border-bottom:0}
+      .excel-table td::before{content:attr(data-label);font-weight:700;display:block;color:var(--muted);margin-bottom:6px}
+      td.right{text-align:left}
+      td.total{font-weight:800}
+      td.action{display:flex;gap:8px;justify-content:flex-end;padding-top:6px}
+
+      /* stack toolbar buttons vertically for easier tapping */
+      .toolbar{flex-direction:column;align-items:stretch}
+      .taking_money,.giving_money{width:100%;display:block}
+      .controls-inline{flex-direction:column;align-items:stretch}
+      .small-btn{width:100%;}
+
+      /* modal full-screen on small screens */
+      .modal{width:100%;height:100%;max-width:none;border-radius:0;padding:14px;display:flex;flex-direction:column}
+      .modal .content{flex:1;overflow:auto}
+      .modal-footer{position:static;margin-top:12px}
+
+      /* hide summary to conserve space (it’s still available in header) */
+      .summary{display:none}
+    }
+
+    @media (max-width:420px){
+      header h1{font-size:20px}
+      .modal label{width:100px}
+    }
+
+    /* accessibility */
+    button:focus,input:focus,select:focus{outline:3px solid rgba(0,120,215,0.12)}
+  </style>
 </head>
 <body>
-    <div class="container">
+  <div class="container">
+    <header>
+      <h1>SRINU LOANS</h1>
+    </header>
 
-       <header>
-           <h1>Srinu Loans</h1>
+    <section class="toolbar">
+      <div style="display:flex;gap:12px;flex:1;flex-wrap:wrap;align-items:center;">
+        <button id="btnTaking" class="taking_money" aria-pressed="true">Taking Money</button>
+        <button id="btnGiving" class="giving_money" aria-pressed="false">Giving Money</button>
+      </div>
 
-           
-       </header>
-
-
-       <section>
-        <button class="taking_money"><a href="">Taking Money from the person/bank</a></button>
-
-           <button class="giving_money"><a href="">Giving Money to the person/bank</a></button>
-       </section>
-
-
-       <section>
-        <div class="tmoney_box">
-
-           
-            <button> <i class="bi bi-pencil-square"></i></button> 
-             
-
-            <p class="tmoney_tpa">Total Principle Amount : </p>
-            <p class="tmoney_tia">Total Interest Amount : </p>
-            <p class="tmoney_ta">Total Amount : </p>
-            
-
+      <div class="tmoney_box" style="flex:1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+        <div class="controls-inline">
+          <button id="addRowBtn" title="Add row" class="small-btn"><i class="bi bi-plus-lg"></i> Add Name / Bank</button>
+          <button id="exportPdfBtn" class="small-btn" title="Export table as PDF">📄 Export as PDF</button>
+          <button id="clearBtn" class="small-btn" title="Clear all rows">🗑 Clear Data</button>
         </div>
-       </section>
 
+        <div class="summary" aria-hidden="false">
+          <p>Principle: <span id="sumPrinciple">0.00</span></p>
+          <p>Interest: <span id="sumInterest">0.00</span></p>
+          <p>Total: <span id="sumTotal">0.00</span></p>
+        </div>
+      </div>
+    </section>
 
+    <section style="margin-top:12px;">
+      <div class="tmoney_list" id="tableWrap">
+        <table class="excel-table" id="moneyTable" aria-label="Money table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Person/Bank Name</th>
+              <th style="text-align:right">Principle Amount</th>
+              <th style="text-align:right">Interest Amount</th>
+              <th style="text-align:right">Total Amount</th>
+              <th>Remark</th>
+              <th class="action-header">Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- modal -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Add / Edit Entry</h3>
+      <div style="margin:8px 0" id="modeBadge" class="mode-indicator"></div>
+
+      <div class="content">
+        <div class="row">
+          <label for="mDate">Date</label>
+          <input id="mDate" type="date">
+        </div>
+
+        <div class="row">
+          <label for="mName">Person/Bank</label>
+          <input id="mName" type="text" placeholder="Person / Bank">
+        </div>
+
+        <div class="row">
+          <label for="mPrinciple">Principle</label>
+          <input id="mPrinciple" type="number" min="0" step="0.01">
+        </div>
+
+        <div class="row">
+          <label for="mInterest">Interest</label>
+          <input id="mInterest" type="number" min="0" step="0.01">
+        </div>
+
+        <div class="row">
+          <label for="mRemark">Remark</label>
+          <select id="mRemark"><option value="pending">Pending</option><option value="complete">Complete</option></select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="modalCancel" class="small-btn">Cancel</button>
+        <button id="modalSave" class="small-btn">Save</button>
+      </div>
     </div>
+  </div>
+
+  <!-- pdf libs used previously -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    /* localStorage DB logic + rendering which sets data-label attributes for mobile/card view */
+    const STORAGE_KEYS = { taking: 'srinu_taking', giving: 'srinu_giving' };
+    const btnTaking = document.getElementById('btnTaking');
+    const btnGiving = document.getElementById('btnGiving');
+    const addRowBtn = document.getElementById('addRowBtn');
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const tbody = document.querySelector('#moneyTable tbody');
+    const tableWrap = document.querySelector('#tableWrap');
+    const sumPrincipleEl = document.getElementById('sumPrinciple');
+    const sumInterestEl = document.getElementById('sumInterest');
+    const sumTotalEl = document.getElementById('sumTotal');
+
+    // modal
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalSave = document.getElementById('modalSave');
+    const modalCancel = document.getElementById('modalCancel');
+    const modeBadge = document.getElementById('modeBadge');
+    const mDate = document.getElementById('mDate');
+    const mName = document.getElementById('mName');
+    const mPrinciple = document.getElementById('mPrinciple');
+    const mInterest = document.getElementById('mInterest');
+    const mRemark = document.getElementById('mRemark');
+
+    let currentMode = 'taking';
+    let editIndex = -1;
+
+    // attach listeners
+    btnTaking.addEventListener('click', ()=>switchMode('taking'));
+    btnGiving.addEventListener('click', ()=>switchMode('giving'));
+    addRowBtn.addEventListener('click', openAddModal);
+    exportPdfBtn.addEventListener('click', exportAsPdf);
+    clearBtn.addEventListener('click', clearCurrentDatabase);
+    modalCancel.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) closeModal();});
+    modalSave.addEventListener('click', onModalSave);
+
+    switchMode('taking');
+
+
+    // display date as: 11 Dec 2025  (day 2-digit, short month name, year)
+function formatDisplayDate(dateStr) {
+  if (!dateStr) return '';
+  // input expected as YYYY-MM-DD (from <input type="date">)
+  const d = new Date(dateStr);
+  if (isNaN(d)) return dateStr; // fallback if something unexpected
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = d.toLocaleString('en-US', { month: 'short' }); // Jan, Feb, Mar...
+  const year = d.getFullYear();
+  return `${day} ${month} ${year}`;
+}
+
+
+    function loadFromStorage(mode){ try{const raw=localStorage.getItem(STORAGE_KEYS[mode]);return raw?JSON.parse(raw):[];}catch(e){localStorage.removeItem(STORAGE_KEYS[mode]);return[];} }
+    function saveToStorage(mode,arr){ localStorage.setItem(STORAGE_KEYS[mode], JSON.stringify(arr)); }
+    function addEntry(mode,entry){ const a=loadFromStorage(mode); a.push(entry); saveToStorage(mode,a); }
+    function updateEntry(mode,index,entry){ const a=loadFromStorage(mode); if(index>=0 && index<a.length){ a[index]=entry; saveToStorage(mode,a);} }
+    function deleteEntry(mode,index){ const a=loadFromStorage(mode); if(index>=0 && index<a.length){ a.splice(index,1); saveToStorage(mode,a);} }
+
+    function switchMode(m){ currentMode=m; btnTaking.style.opacity = m==='taking'?1:0.7; btnGiving.style.opacity = m==='giving'?1:0.7; modeBadge.textContent = m==='taking' ? 'Taking Money DB' : 'Giving Money DB'; renderTable(); }
+
+    function renderTable(){ tbody.innerHTML=''; const rows = loadFromStorage(currentMode); rows.forEach((r,idx)=> tbody.appendChild(makeRowElement(r,idx))); updateSums(); }
+
+    function makeRowElement(data,index){
+      const tr = document.createElement('tr');
+
+      
+
+      const tdDate = document.createElement('td');
+tdDate.textContent = formatDisplayDate(data.date || '');
+tdDate.setAttribute('data-label','Date');
+tr.appendChild(tdDate);
+
+
+      const tdName = document.createElement('td'); tdName.textContent = data.name || ''; tdName.setAttribute('data-label','Person/Bank'); tr.appendChild(tdName);
+      const tdPrin = document.createElement('td'); tdPrin.className='right'; tdPrin.textContent = formatNumber(data.principle); tdPrin.setAttribute('data-label','Principle'); tr.appendChild(tdPrin);
+      const tdInterest = document.createElement('td'); tdInterest.className='right'; tdInterest.textContent = formatNumber(data.interest); tdInterest.setAttribute('data-label','Interest'); tr.appendChild(tdInterest);
+
+      const tdTotal = document.createElement('td'); tdTotal.className='total'; const total = (parseFloat(data.principle||0)+parseFloat(data.interest||0))||0; tdTotal.textContent = formatNumber(total); tdTotal.setAttribute('data-label','Total'); tr.appendChild(tdTotal);
+
+      const tdRemark = document.createElement('td'); tdRemark.style.textAlign='center'; tdRemark.setAttribute('data-label','Remark'); const remarkBtn = document.createElement('button'); remarkBtn.type='button'; remarkBtn.className='remark-btn ' + (data.remark==='complete'?'remark-complete':''); remarkBtn.textContent = data.remark==='complete' ? 'Complete' : 'Pending'; remarkBtn.addEventListener('click', ()=>{ data.remark = data.remark==='complete' ? 'pending':'complete'; updateEntry(currentMode,index,data); renderTable(); }); tdRemark.appendChild(remarkBtn); tr.appendChild(tdRemark);
+
+      const tdAction = document.createElement('td'); tdAction.className='action'; tdAction.setAttribute('data-label','Action');
+      const editBtn = document.createElement('button'); editBtn.className='small-btn'; editBtn.textContent='Edit'; editBtn.addEventListener('click', ()=> openEditModal(index,data)); tdAction.appendChild(editBtn);
+      const delBtn = document.createElement('button'); delBtn.className='small-btn'; delBtn.style.marginLeft='6px'; delBtn.style.backgroundColor='red'; delBtn.style.color='white'; delBtn.textContent='Delete'; delBtn.addEventListener('click', ()=>{ if(!confirm('Delete this row?')) return; deleteEntry(currentMode,index); renderTable(); }); tdAction.appendChild(delBtn);
+      tr.appendChild(tdAction);
+
+      return tr;
+    }
+
+    function openAddModal(){ editIndex=-1; mDate.value=''; mName.value=''; mPrinciple.value=''; mInterest.value=''; mRemark.value='pending'; showModal(); }
+    function openEditModal(index,data){ editIndex=index; mDate.value=data.date||''; mName.value=data.name||''; mPrinciple.value=data.principle||''; mInterest.value=data.interest||''; mRemark.value=data.remark||'pending'; showModal(); }
+    function showModal(){ modalBackdrop.style.display='flex'; modalBackdrop.setAttribute('aria-hidden','false'); setTimeout(()=>mDate.focus(),50); }
+    function closeModal(){ modalBackdrop.style.display='none'; modalBackdrop.setAttribute('aria-hidden','true'); }
+    function onModalSave(){ const entry = { date:mDate.value, name:mName.value.trim(), principle: mPrinciple.value?parseFloat(mPrinciple.value).toFixed(2):'0.00', interest: mInterest.value?parseFloat(mInterest.value).toFixed(2):'0.00', remark:mRemark.value }; if(editIndex===-1) addEntry(currentMode,entry); else updateEntry(currentMode,editIndex,entry); closeModal(); renderTable(); }
+
+    function formatNumber(v){ if(v===''||v===undefined||v===null) return ''; const n=parseFloat(v); return isNaN(n)?'':n.toFixed(2); }
+    function updateSums(){ let totP=0,totI=0,totAll=0; const rows=loadFromStorage(currentMode); for(const r of rows){ const p=parseFloat(r.principle)||0; const i=parseFloat(r.interest)||0; totP+=p; totI+=i; totAll+=p+i; } sumPrincipleEl.textContent = totP.toFixed(2); sumInterestEl.textContent = totI.toFixed(2); sumTotalEl.textContent = totAll.toFixed(2); }
+    function clearCurrentDatabase(){ if(!confirm(`Clear all rows in the "${currentMode}" database?`)) return; saveToStorage(currentMode,[]); renderTable(); }
+
+    async function exportAsPdf(){ tableWrap.classList.add('hide-action'); try{ const canvas = await html2canvas(tableWrap,{scale:2,useCORS:true,backgroundColor:'#ffffff'}); const imgData = canvas.toDataURL('image/png'); const { jsPDF } = window.jspdf; const pdf = new jsPDF({orientation:'portrait',unit:'pt',format:'a4'}); const pdfW = pdf.internal.pageSize.getWidth(); const pdfH = pdf.internal.pageSize.getHeight(); const imgW = canvas.width; const imgH = canvas.height; const ratio = Math.min(pdfW/imgW,pdfH/imgH); const renderW = imgW*ratio; const renderH = imgH*ratio; const marginTop = 20; pdf.addImage(imgData,'PNG',(pdfW-renderW)/2,marginTop,renderW,renderH); const filename = `srinu_${currentMode}_table_${new Date().toISOString().slice(0,10)}.pdf`; pdf.save(filename);}catch(e){console.error(e);alert('PDF export failed');}finally{tableWrap.classList.remove('hide-action');} }
+
+    window._srinu = { loadFromStorage, saveToStorage, addEntry, updateEntry, deleteEntry };
+  </script>
 </body>
 </html>
