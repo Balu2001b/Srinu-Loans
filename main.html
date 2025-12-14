@@ -357,8 +357,8 @@
       const tdRemark = document.createElement('td'); tdRemark.style.textAlign='center'; tdRemark.setAttribute('data-label','Remark'); const remarkBtn = document.createElement('button'); remarkBtn.type='button'; remarkBtn.className='remark-btn ' + (data.remark==='complete'?'remark-complete':''); remarkBtn.textContent = data.remark==='complete' ? 'Complete' : 'Pending'; remarkBtn.addEventListener('click', ()=>{ data.remark = data.remark==='complete' ? 'pending':'complete'; updateEntry(currentMode,index,data); renderTable(); }); tdRemark.appendChild(remarkBtn); tr.appendChild(tdRemark);
 
       const tdAction = document.createElement('td'); tdAction.className='action'; tdAction.setAttribute('data-label','Action');
-      const editBtn = document.createElement('button'); editBtn.className='small-btn'; editBtn.textContent='Edit'; editBtn.addEventListener('click', ()=> openEditModal(index,data)); tdAction.appendChild(editBtn);
-      const delBtn = document.createElement('button'); delBtn.className='small-btn'; delBtn.style.marginLeft='6px'; delBtn.style.backgroundColor='red'; delBtn.style.color='white'; delBtn.textContent='Delete'; delBtn.addEventListener('click', ()=>{ if(!confirm('Delete this row?')) return; deleteEntry(currentMode,index); renderTable(); }); tdAction.appendChild(delBtn);
+      const editBtn = document.createElement('button'); editBtn.className='small-btn'; editBtn.innerHTML='<i class="bi bi-pencil-square"></i>'; editBtn.style.color = 'blue'; editBtn.addEventListener('click', ()=> openEditModal(index,data)); tdAction.appendChild(editBtn);
+      const delBtn = document.createElement('button'); delBtn.className='small-btn'; delBtn.innerHTML = '<i class="bi bi-trash"></i>'; delBtn.style.marginLeft = '10px'; delBtn.style.backgroundColor = 'red'; delBtn.style.color = 'white'; delBtn.style.border = 'none'; delBtn.style.cursor = 'pointer'; delBtn.title = 'Delete'; delBtn.addEventListener('click', ()=>{ if(!confirm('Delete this row?')) return; deleteEntry(currentMode,index); renderTable(); }); tdAction.appendChild(delBtn);
       tr.appendChild(tdAction);
 
       return tr;
