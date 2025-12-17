@@ -1,4 +1,4 @@
-@media (max-width: 767px) {
+@media only screen and (max-width: 390px) {
     .container {
         width: 100%;
         border: none;
@@ -30,15 +30,39 @@
     .controls-inline {
         flex-direction: row;
         align-items: stretch;
+        gap: 3px;
+        
+        
        
     }
 
     .small-btn {
         width: 30%;
-        font-size: 11px;
-        padding: 3px;
-        
-        
+        font-size: 10px;
+        padding: 5px;
+          
     }
-    
+
+    .summary{
+
+        font-size: 12px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin-top: 10px;
+        justify-content: stretch;
+    }
+
+    .summary span{
+        display: flex;
+        flex-direction: row;
+        margin-right: 30px;
+        font-size: 12px;
+    }
+  
+
+
+
+
+
 }
