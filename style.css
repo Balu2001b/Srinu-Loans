@@ -1,117 +1,44 @@
-*{
+@media (max-width: 767px) {
+    .container {
+        width: 100%;
+        border: none;
+         background: rgba(255, 255, 255, 0.15); /* transparent white */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.container{
+    }
 
-    height: 844px;
-    width: 390px;
-    border: 1px solid black;
-    margin: auto;
-}
 
-header{
-    height: 60px;
-    background-color: rgb(247, 247, 78);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-}
+    .tmoney_box {
+        width: 90%;
+    }
 
-header h1{
+    .taking_money, .giving_money {
+       
+       width: 45%;
+        font-size: 12px;
+    }
 
-    text-align: center;
-    font-size: 25px;
-    padding: 10px;
-}
+    header h1 {
+        font-size: 20px;
+        width: 87%;
+    }
+    .controls-inline {
+        flex-direction: row;
+        align-items: stretch;
+       
+    }
 
-.taking_money a{
-
-    text-decoration: none;
-    color: white;
-    font-size: 10px;
-}
-
-.giving_money a{
-
-    text-decoration: none;
-    color: white;
-    font-size: 10px;
-}
-
-.taking_money{
-
-    padding: 10px;
-    width: 190px;
-    margin-top: 30px;
-    margin-left: 10px;
+    .small-btn {
+        width: 30%;
+        font-size: 11px;
+        padding: 3px;
+        
+        
+    }
     
-    background-color: rgb(6, 85, 6);
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-
-}
-
-.giving_money{
-
-    padding: 10px;
-    width: 180px;
-    background-color: red;
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-}
-
-
-.tmoney_box{
-
-    border: 1px solid #ccc;
-    height: 500px;
-    width: 350px;
-    margin: 30px auto;
-    border-radius: 10px;
-    background-color: rgb(51, 172, 51);
-
-}
-
-
-
-.tmoney_heading{
-
-    
-    padding: 5px;
-    color: rgb(2, 54, 2);
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 13px;
-
-}
-
-.tmoney_box button{
-
-   background-color: yellow;
-   padding: 3px;
-   border-radius: 5px;
-   color: black;
-   border: none;
- float: right;
- margin-right: 10px;
- margin-top: 10px;
-    cursor: pointer;
-}
-
-.tmoney_tpa, .tmoney_tia, .tmoney_ta{
-
-    font-size: 10px;
-    color: black;
-    padding: 2px;
-    margin-left: 20px;
-    font-weight: bold;
-    
-   
 }
