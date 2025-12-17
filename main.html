@@ -66,59 +66,7 @@
       background-color: red;
       color: white;
     }
-    /* ---------- MOBILE & TABLET ADAPTATIONS ---------- */
-    /* We'll convert the table into stacked cards for small screens and improve touch targets */
-    @media (max-width:1024px){
-      .container{padding:14px}
-      .excel-table{min-width:0}
-    }
-
-    /* Tablet: make controls wrap nicely and slightly larger touch targets */
-    @media (max-width:900px){
-      .controls-inline{width:100%;justify-content:space-between}
-      .small-btn{padding:10px 14px;font-size:15px}
-      .summary{flex-direction:row;align-items:center}
-    }
-
-    /* Mobile: convert rows to stacked cards for readability */
-    @media (max-width:640px){
-      .excel-table{border:0}
-      .excel-table thead{display:none}
-      .excel-table, .excel-table tbody, .excel-table tr, .excel-table td{display:block;width:100%}
-      .excel-table tr{margin-bottom:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:0 6px 14px rgba(12,20,30,0.04);overflow:hidden;padding:10px;border:1px solid #eef2f6}
-      .excel-table td{padding:8px 12px;border:0;border-bottom:1px dashed #eee;position:relative}
-      .excel-table td:last-child{border-bottom:0}
-      .excel-table td::before{content:attr(data-label);font-weight:700;display:block;color:var(--muted);margin-bottom:6px}
-      td.right{text-align:left}
-      td.total{font-weight:800}
-      td.action{display:flex;gap:8px;justify-content:flex-end;padding-top:6px}
-
-      /* stack toolbar buttons vertically for easier tapping */
-      .toolbar{flex-direction:column;align-items:stretch}
-     
-   
-
-      /* modal full-screen on small screens */
-      .modal{width:100%;height:100%;max-width:none;border-radius:0;padding:14px;display:flex;flex-direction:column}
-      .modal .content{flex:1;overflow:auto}
-      .modal-footer{position:static;margin-top:12px}
-
-      /* hide summary to conserve space (it’s still available in header) */
-      .summary{display:none}
-    }
-
-    @media (max-width:420px){
-      header h1{font-size:20px}
-      .modal label{width:100px}
-    }
-
-    .tmoney_list{
-      max-height: 65vh;
-      overflow-y: scroll;
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-
-    }
+    
 
     /* accessibility */
     button:focus,input:focus,select:focus{outline:3px solid rgba(0,120,215,0.12)}
