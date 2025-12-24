@@ -357,8 +357,7 @@
 
     function clearCurrentDatabase(){ if(!confirm(`Clear all rows in the "${currentMode}" database?`)) return; saveToStorage(currentMode,[]); renderTable(); }
 
-    async function exportAsPdf(){ tableWrap.classList.add('hide-action'); try{ const canvas = await html2canvas(tableWrap,{scale:2,useCORS:true,backgroundColor:'#ffffff'}); const imgData = canvas.toDataURL('image/png'); const { jsPDF } = window.jspdf; const pdf = new jsPDF({orientation:'portrait',unit:'pt',format:'a4'}); const pdfW = pdf.internal.pageSize.getWidth(); const pdfH = pdf.internal.pageSize.getHeight(); const imgW = canvas.width; const imgH = canvas.height; const ratio = Math.min(pdfW/imgW,pdfH/imgH); const renderW = imgW*ratio; const renderH = imgH*ratio; const marginTop = 20; pdf.addImage(imgData,'PNG',(pdfW-renderW)/2,marginTop,renderW,renderH); const filename = `srinu_${currentMode}_table_${new Date().toISOString().slice(0,10)}.pdf`; pdf.save(filename);}catch(e){console.error(e);alert('PDF export failed');}finally{tableWrap.classList.remove('hide-action');} }
-
+   
     // ---------------- Interest calculator functions ----------------
     function openCalcModal({ mode, index, principle = 0, interestField = 'table' }){
       // interestField: 'table' means opened from table row, 'modal' means opened from the add/edit modal
