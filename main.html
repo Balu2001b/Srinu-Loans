@@ -357,7 +357,63 @@
 
     function clearCurrentDatabase(){ if(!confirm(`Clear all rows in the "${currentMode}" database?`)) return; saveToStorage(currentMode,[]); renderTable(); }
 
-   
+   async function exportAsPdf(){
+
+  // Hide Action column before capture
+  document.querySelectorAll('.action-header, .action-cell')
+    .forEach(el => el.style.display = 'none');
+
+  try{
+    const canvas = await html2canvas(tableWrap,{
+      scale: 2,                     // High clarity on iPhone
+      backgroundColor:'#ffffff',
+      windowWidth: tableWrap.scrollWidth
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+
+    // Landscape gives more width for table
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'pt',
+      format: 'a4'
+    });
+
+    const pdfW = pdf.internal.pageSize.getWidth();
+    const pdfH = pdf.internal.pageSize.getHeight();
+
+    // Image dimensions inside PDF
+    const imgW = pdfW;
+    const imgH = (canvas.height * imgW) / canvas.width;
+
+    let heightLeft = imgH;
+    let position = 0;
+
+    // First page
+    pdf.addImage(imgData, 'PNG', 0, position, imgW, imgH);
+    heightLeft -= pdfH;
+
+    // Remaining pages
+    while (heightLeft > 0) {
+      position -= pdfH;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgW, imgH);
+      heightLeft -= pdfH;
+    }
+
+    pdf.save(`srinu_loans_${new Date().toISOString().slice(0,10)}.pdf`);
+  }
+  catch(err){
+    console.error(err);
+    alert('PDF export failed');
+  }
+  finally{
+    // Restore Action column
+    document.querySelectorAll('.action-header, .action-cell')
+      .forEach(el => el.style.display = '');
+  }
+}
     // ---------------- Interest calculator functions ----------------
     function openCalcModal({ mode, index, principle = 0, interestField = 'table' }){
       // interestField: 'table' means opened from table row, 'modal' means opened from the add/edit modal
@@ -417,67 +473,9 @@
 
   </script>
 
-  <script>
 
 
-async function exportAsPdf(){
 
-  // Hide Action column before capture
-  document.querySelectorAll('.action-header, .action-cell')
-    .forEach(el => el.style.display = 'none');
-
-  try{
-    const canvas = await html2canvas(tableWrap,{
-      scale: 3,                     // High clarity on iPhone
-      backgroundColor:'#ffffff',
-      windowWidth: tableWrap.scrollWidth
-    });
-
-    const imgData = canvas.toDataURL('image/png');
-    const { jsPDF } = window.jspdf;
-
-    // Landscape gives more width for table
-    const pdf = new jsPDF({
-      orientation: 'landscape',
-      unit: 'pt',
-      format: 'a4'
-    });
-
-    const pdfW = pdf.internal.pageSize.getWidth();
-    const pdfH = pdf.internal.pageSize.getHeight();
-
-    // Image dimensions inside PDF
-    const imgW = pdfW;
-    const imgH = (canvas.height * imgW) / canvas.width;
-
-    let heightLeft = imgH;
-    let position = 0;
-
-    // First page
-    pdf.addImage(imgData, 'PNG', 0, position, imgW, imgH);
-    heightLeft -= pdfH;
-
-    // Remaining pages
-    while (heightLeft > 0) {
-      position -= pdfH;
-      pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgW, imgH);
-      heightLeft -= pdfH;
-    }
-
-    pdf.save(`srinu_loans_${new Date().toISOString().slice(0,10)}.pdf`);
-  }
-  catch(err){
-    console.error(err);
-    alert('PDF export failed');
-  }
-  finally{
-    // Restore Action column
-    document.querySelectorAll('.action-header, .action-cell')
-      .forEach(el => el.style.display = '');
-  }
-}
-</script>
 
 </body>
 </html>
