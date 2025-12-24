@@ -359,23 +359,21 @@
 
    async function exportAsPdf(){
 
-  // Hide Action column before capture
   document.querySelectorAll('.action-header, .action-cell')
     .forEach(el => el.style.display = 'none');
 
   try{
     const canvas = await html2canvas(tableWrap,{
-      scale: 2,                     // High clarity on iPhone
-      backgroundColor:'#ffffff',
+      scale: 3,
+      backgroundColor:'#fff',
       windowWidth: tableWrap.scrollWidth
     });
 
     const imgData = canvas.toDataURL('image/png');
     const { jsPDF } = window.jspdf;
 
-    // Landscape gives more width for table
     const pdf = new jsPDF({
-      orientation: 'portrait',
+      orientation: 'landscape',
       unit: 'pt',
       format: 'a4'
     });
@@ -383,33 +381,39 @@
     const pdfW = pdf.internal.pageSize.getWidth();
     const pdfH = pdf.internal.pageSize.getHeight();
 
-    // Image dimensions inside PDF
-    const imgW = pdfW;
-    const imgH = (canvas.height * imgW) / canvas.width;
+    const margin = 20;
+    const usableW = pdfW - margin * 2;
+
+    let imgW = canvas.width;
+    let imgH = canvas.height;
+
+    const ratio = Math.min(usableW / imgW, pdfH / imgH);
+
+    imgW *= ratio;
+    imgH *= ratio;
 
     let heightLeft = imgH;
-    let position = 0;
+    let position = margin;
 
     // First page
-    pdf.addImage(imgData, 'PNG', 0, position, imgW, imgH);
+    pdf.addImage(imgData,'PNG',(pdfW-imgW)/2,position,imgW,imgH);
     heightLeft -= pdfH;
 
     // Remaining pages
-    while (heightLeft > 0) {
+    while(heightLeft > 0){
       position -= pdfH;
       pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgW, imgH);
+      pdf.addImage(imgData,'PNG',(pdfW-imgW)/2,position,imgW,imgH);
       heightLeft -= pdfH;
     }
 
     pdf.save(`srinu_loans_${new Date().toISOString().slice(0,10)}.pdf`);
   }
-  catch(err){
-    console.error(err);
+  catch(e){
+    console.error(e);
     alert('PDF export failed');
   }
   finally{
-    // Restore Action column
     document.querySelectorAll('.action-header, .action-cell')
       .forEach(el => el.style.display = '');
   }
