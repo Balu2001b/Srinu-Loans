@@ -51,6 +51,67 @@
         font-size: 12px;
     }
 
+    .tmoney_list {
+    overflow-x: hidden;
+  }
+
+  .excel-table {
+    width: 65%;
+    border: none;
+  }
+
+  /* Hide table header */
+  .excel-table thead {
+    display: none;
+  }
+
+  /* Convert rows to cards */
+  .excel-table,
+  .excel-table tbody,
+  .excel-table tr {
+    display: block;
+    width: 65%;
+    
+  }
+
+  .excel-table tr {
+    background: #fff;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+
+  .excel-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border: none;
+    font-size: 14px;
+  }
+
+  /* Left labels */
+  .excel-table td::before {
+    content: attr(data-label);
+    font-weight: 500;
+    color: #555;
+  }
+
+  /* Right values */
+  .excel-table td {
+    text-align: right;
+  }
+
+  /* Action buttons */
+  .excel-table td:last-child {
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  
+
+
 
   
 
