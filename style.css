@@ -2,7 +2,7 @@
     .container {
         width: 100%;
         height: auto;
-        overflow: scroll;
+        overflow: auto;
         border: none;
          background: rgba(255, 255, 255, 0.15); /* transparent white */
   backdrop-filter: blur(10px);
@@ -125,3 +125,4 @@
 
 
 }
+
