@@ -53,7 +53,7 @@
 
     .tmoney_list {
     overflow-x: hidden;
-    height: fit-content;
+    height: 45vh;
     
   }
 
@@ -117,8 +117,8 @@
 
       text-align: center;
       font-size: 12px;
-      margin-top: -20px;
-      
+     margin-bottom: 0px;
+
   }
 
 
@@ -133,6 +133,3 @@
 
 
 }
-
-
-
