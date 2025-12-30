@@ -113,10 +113,11 @@
     gap: 10px;
   }
 
-  .copy_rights{
+  .copy_rights p{
 
       text-align: center;
       font-size: 12px;
+      margin-top: -20px;
       
   }
 
@@ -132,5 +133,6 @@
 
 
 }
+
 
 
