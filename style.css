@@ -58,7 +58,7 @@
   }
 
   .excel-table {
-    width: 65%;
+    width: 100%;
     border: none;
     height: auto;
   }
@@ -73,7 +73,7 @@
   .excel-table tbody,
   .excel-table tr {
     display: block;
-    width: 65%;
+    width: 100%;
     
   }
 
