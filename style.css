@@ -52,16 +52,14 @@
     }
 
     .tmoney_list {
-    overflow-x: hidden;
-    height: 45vh;
-    width: 85%;
-    margin-left: 5px;
     
+    height: 45vh;
+   
     
   }
 
   .excel-table {
-    width: 100%;
+    
     border: none;
     height: auto;
    
@@ -70,6 +68,7 @@
   /* Hide table header */
   .excel-table thead {
     display: none;
+
   }
 
   /* Convert rows to cards */
@@ -77,7 +76,9 @@
   .excel-table tbody,
   .excel-table tr {
     display: block;
-    width: 98%;
+    margin-left: 20px;
+    width: 90%;
+   
     
   }
 
