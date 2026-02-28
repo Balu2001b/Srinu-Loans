@@ -128,7 +128,8 @@
               <th style="text-align:right">Interest Amount</th>
               <th style="text-align:right">Total Amount</th>
               <th>Remark</th>
-              <th class="action-header">Action</th>
+              <th class="action-header">Proofs Submitted</th>
+              <th >Action</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -169,6 +170,11 @@
         <div class="row">
           <label for="mRemark">Remark</label>
           <select id="mRemark"><option value="pending">Pending</option><option value="complete">Complete</option></select>
+        </div>
+
+        <div class="row">
+          <label for="mProofs">Proofs</label>
+          <input id="mProofs" type="text" placeholder="Proofs (optional)">
         </div>
       </div>
 
@@ -245,6 +251,7 @@
     const mPrinciple = document.getElementById('mPrinciple');
     const mInterest = document.getElementById('mInterest');
     const mRemark = document.getElementById('mRemark');
+    const mProofs = document.getElementById('mProofs');
     const openCalcFromModal = document.getElementById('openCalcFromModal');
 
     // calc modal
@@ -329,6 +336,8 @@
 
       const tdRemark = document.createElement('td'); tdRemark.style.textAlign='center'; tdRemark.setAttribute('data-label','Remark'); const remarkBtn = document.createElement('button'); remarkBtn.type='button'; remarkBtn.className='remark-btn ' + (data.remark==='complete'?'remark-complete':''); remarkBtn.textContent = data.remark==='complete' ? 'Complete' : 'Pending'; remarkBtn.addEventListener('click', ()=>{ data.remark = data.remark==='complete' ? 'pending':'complete'; updateEntry(currentMode,index,data); renderTable(); }); tdRemark.appendChild(remarkBtn); tr.appendChild(tdRemark);
 
+      const tdProofs = document.createElement('td'); tdProofs.style.textAlign='center'; tdProofs.setAttribute('data-label','Proofs'); tdProofs.textContent = data.proofs || ''; tr.appendChild(tdProofs);
+
       const tdAction = document.createElement('td'); tdAction.className='action'; tdAction.setAttribute('data-label','Action');
       const editBtn = document.createElement('button'); editBtn.className='small-btn'; editBtn.innerHTML='<i class="bi bi-pencil-square"></i>'; editBtn.style.color = 'blue'; editBtn.addEventListener('click', ()=> openEditModal(index,data)); tdAction.appendChild(editBtn);
       const delBtn = document.createElement('button'); delBtn.className='small-btn'; delBtn.innerHTML = '<i class="bi bi-trash"></i>'; delBtn.style.marginLeft = '10px'; delBtn.style.backgroundColor = 'red'; delBtn.style.color = 'white'; delBtn.style.border = 'none'; delBtn.style.cursor = 'pointer'; delBtn.title = 'Delete'; delBtn.addEventListener('click', ()=>{ if(!confirm('Delete this row?')) return; deleteEntry(currentMode,index); renderTable(); }); tdAction.appendChild(delBtn);
@@ -337,11 +346,11 @@
       return tr;
     }
 
-    function openAddModal(){ editIndex=-1; mDate.value=''; mName.value=''; mPrinciple.value=''; mInterest.value=''; mRemark.value='pending'; showModal(); }
-    function openEditModal(index,data){ editIndex=index; mDate.value=data.date||''; mName.value=data.name||''; mPrinciple.value=data.principle||''; mInterest.value=data.interest||''; mRemark.value=data.remark||'pending'; showModal(); }
+    function openAddModal(){ editIndex=-1; mDate.value=''; mName.value=''; mPrinciple.value=''; mInterest.value=''; mRemark.value='pending'; mProofs.value=''; showModal(); }
+    function openEditModal(index,data){ editIndex=index; mDate.value=data.date||''; mName.value=data.name||''; mPrinciple.value=data.principle||''; mInterest.value=data.interest||''; mRemark.value=data.remark||'pending'; mProofs.value=data.proofs||''; showModal(); }
     function showModal(){ modalBackdrop.style.display='flex'; modalBackdrop.setAttribute('aria-hidden','false'); setTimeout(()=>mDate.focus(),50); }
     function closeModal(){ modalBackdrop.style.display='none'; modalBackdrop.setAttribute('aria-hidden','true'); }
-    function onModalSave(){ const entry = { date:mDate.value, name:mName.value.trim(), principle: mPrinciple.value?parseFloat(mPrinciple.value).toFixed(2):'0.00', interest: mInterest.value?parseFloat(mInterest.value).toFixed(2):'0.00', remark:mRemark.value }; if(editIndex===-1) addEntry(currentMode,entry); else updateEntry(currentMode,editIndex,entry); closeModal(); renderTable(); }
+    function onModalSave(){ const entry = { date:mDate.value, name:mName.value.trim(), principle: mPrinciple.value?parseFloat(mPrinciple.value).toFixed(2):'0.00', interest: mInterest.value?parseFloat(mInterest.value).toFixed(2):'0.00', remark:mRemark.value, proofs: mProofs.value }; if(editIndex===-1) addEntry(currentMode,entry); else updateEntry(currentMode,editIndex,entry); closeModal(); renderTable(); }
 
     // formatted number with commas and 2 decimals
     // Uses en-US grouping (1,234,567.89). If you prefer Indian grouping (1,23,45,678.90) use 'en-IN'.
@@ -497,3 +506,4 @@
 
 </body>
 </html>
+
