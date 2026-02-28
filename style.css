@@ -52,7 +52,7 @@
     }
 
     .tmoney_list {
-    
+    overflow-x: hidden;
     height: 45vh;
    
     
